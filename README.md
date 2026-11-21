@@ -1,43 +1,53 @@
 # 21 November 2026 — the world in one image
 
-A front page summing up Saturday 21 November 2026 in one image (1024×1024 PNG),
-built for the [news-image-20261121](https://make.fun/bounty/news-image-20261121)
-bounty on make.fun.
+A newspaper front page summing up 21 November 2026's world news in a
+single 1024x1024 image, for the make.fun bounty `news-image-20261121`.
 
-## The day's news
+## The news
 
-- **The AI rout (lead).** Wall Street's AI trade unwinds in a day: the Nasdaq
-  plunges 5.28% to 22,618 — its worst week since Covid — the S&P 500 falls 3.70%
-  into correction, and Nvidia sinks 14.01% to USD 125.53, a 52-week low, after
-  Reuters reports the SEC is probing its accounting.
-- **Denmark expels Russia's defence attaché** over a foiled Russian plot to
-  assassinate Ukrainian-American rapper Kyivstoner at a Copenhagen concert.
-- **Russian strikes hit Kryvyi Rih:** 2 dead, 42 hurt, children among them.
-- **Cyberattack:** JPMorgan, Visa and Mastercard report breaches at
-  third-party vendors; their payment networks are unaffected.
-- **Bolsonaro taken to hospital** with severe abdominal pain.
-- **COP31 climate talks enter their final stage** in Turkey, with the fight
-  over climate finance dominating.
-- **Cricket, Wellington:** India fight back to 159 for 1, trailing New
-  Zealand by 209 on day two.
-- **Also:** the US sanctions four Iranians over oil money.
+1. **Markets — the lead story: the AI rout.** Wall Street's AI trade
+   unwinds in a day: Nasdaq -5.28% (22,618 — worst week since Covid),
+   S&P 500 -3.70% (6,910 — correction confirmed), Nvidia -14.01%
+   (USD 125.53 — a 52-week low) as the SEC probes its books.
+2. **Denmark — espionage.** Denmark expels a Russian defence attache;
+   a plot to kill rapper Kyivstoner is foiled.
+3. **Ukraine — war.** Russian strikes hit Kryvyi Rih: 2 dead, 42 hurt,
+   children among them.
+4. **Cyberattack.** JPMorgan, Visa and Mastercard hit; vendors breached,
+   networks unaffected.
+5. **Brazil.** Bolsonaro taken to hospital; the jailed ex-president is
+   in severe pain.
+6. **Climate — COP31.** Climate talks enter their final stage; the
+   finance fight dominates the Turkey summit.
+7. **Cricket — Wellington.** India fight back at 159 for 1, trailing
+   New Zealand by 209 on day two.
+8. **Also:** the US sanctions four Iranians over oil money.
 
-## How it was made
+## How the image was built
 
-Every line of the front page was drawn with ffmpeg `drawtext` (DejaVu Serif
-for the masthead, Noto Sans for the stories) and verified at full size and
-at 300 px. The program itself only copies the finished image to
-`/output/entry.png` after checking it is a whole PNG within the limits
-(1024×1024, 1 MiB).
+`entry.png` is rendered with ffmpeg `drawtext`/`drawbox` filters on a
+paper-coloured background (`#f7f3ea`, ink `#141414`, red `#b91c1c`).
+Masthead in DejaVu Serif Bold; all other text in Noto Sans. Every text
+element is passed via a `textfile=` with `expansion=none`, so `%`, `&`,
+commas and apostrophes render literally.
 
-## Run it
+## How to run
 
 ```sh
 mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 ```
 
-Run it twice and the output is byte-identical. No network is used.
+This validates `entry.png` (PNG magic, size ≤ 1 MiB, dimensions
+≤ 1024x1024, IHDR chunk present, file closed by an empty IEND chunk)
+and copies it to `$MAKEFUN_OUTPUT_DIR/entry.png` (default `/output`).
+Node 22 standard library only.
+
+## Notes
+
+- Deterministic: running `main.ts` twice produces a byte-identical
+  `entry.png` (same SHA-256).
+- No network access is needed to build or run this entry.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see `LICENSE`.
